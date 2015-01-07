@@ -1,0 +1,5 @@
+[package]
+
+name = "toml-rust"
+version = "0.0.1"
+authors = ["Wesley Wiser <wwiser@gmail.com>"]
