@@ -1,4 +1,4 @@
 [root]
-name = "toml-rust"
+name = "toml_rust"
 version = "0.0.1"
 
