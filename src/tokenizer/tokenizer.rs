@@ -1,6 +1,7 @@
 use tokenizer::TomlFragment;
 use super::parser_whitespace::parse_whitespace;
 use super::parser_comment::parse_comment;
+use super::parser_boolean::parse_boolean;
 use self::TokenizeResult::{Success, Error};
 
 #[derive(PartialEq, Show)]
@@ -24,6 +25,11 @@ pub fn tokenize(s : &str) -> TokenizeResult {
             None => {},
             Some(result) => { tokens.push(result.fragment); rest = result.remainder; continue; }
         } 
+
+        match parse_boolean(rest) {
+            None => {},
+            Some(result) => { tokens.push(result.fragment); rest = result.remainder; continue; }
+        }
 
         return Error("Tokenize failed");
     }
@@ -51,6 +57,16 @@ fn tokenize_whitespace() {
 fn tokenize_comment() {
     let tokens = vec![TomlFragment::Comment("this is a comment")];
     assert_eq!(Success(tokens), tokenize("#this is a comment"));
+}
+
+#[test]
+fn tokenize_booleans() {
+    let tokens = vec![
+        TomlFragment::Boolean("true"),
+        TomlFragment::Whitespace(" "),
+        TomlFragment::Boolean("false"),
+    ];
+    assert_eq!(Success(tokens), tokenize("true false"));
 }
 
 #[test]

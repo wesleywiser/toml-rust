@@ -5,6 +5,8 @@ pub enum TomlFragment<'a> {
     
     //doesn't include the leading '#'
     Comment(&'a str),
+
+    Boolean(&'a str),
 }
 
 #[derive(PartialEq, Show)]
