@@ -7,6 +7,9 @@ pub enum TomlFragment<'a> {
     Comment(&'a str),
 
     Boolean(&'a str),
+
+    //the tokenizer doesn't check if this will fit into an i64
+    Integer(&'a str),
 }
 
 #[derive(PartialEq, Show)]
