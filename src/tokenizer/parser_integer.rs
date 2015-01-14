@@ -11,15 +11,15 @@ pub fn parse_integer(s : &str) -> Option<ParseResult> {
         return None;
     }
 
-    let index : uint = 
+    let index : usize = 
         if first_char == '+' || first_char == '-' { 1 }
         else { 0 };
 
-    match get_end_of_number(s.slice_from(index)) {
+    match get_end_of_number(&s[index..]) {
         None => None,
         Some(end_index) => {
-            let fragment = Integer(s.slice(0, index + end_index));
-            let remainder = s.slice_from(index + end_index);
+            let fragment = Integer(&s[index + end_index..]);
+            let remainder = &s[..index + end_index];
 
             //if this didn't end the token, this token isn't an Integer
             if !(remainder.is_empty() || remainder.char_at(0).is_whitespace()) {
@@ -31,7 +31,7 @@ pub fn parse_integer(s : &str) -> Option<ParseResult> {
     }
 }
 
-pub fn get_end_of_number(s : &str) -> Option<uint> {
+pub fn get_end_of_number(s : &str) -> Option<usize> {
     if s.is_empty() {
         return None;
     }
@@ -40,7 +40,7 @@ pub fn get_end_of_number(s : &str) -> Option<uint> {
         return None;
     }
 
-    let mut index : uint = 0;
+    let mut index : usize = 0;
 
     for c in s.chars() {
         if !c.is_digit(10) {

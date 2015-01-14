@@ -8,9 +8,9 @@ pub fn parse_boolean(s : &str) -> Option<ParseResult> {
 
     let (fragment, remainder) = 
         if s.starts_with("true") {
-            (s.slice_to(4), s.slice_from(4))
+            (&s[..4], &s[4..])
         } else if s.starts_with("false") {
-            (s.slice_to(5), s.slice_from(5))
+            (&s[..5], &s[5..])
         } else {
             return None;
         };

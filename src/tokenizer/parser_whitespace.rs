@@ -9,7 +9,7 @@ pub fn parse_whitespace(s : &str) -> Option<ParseResult> {
         return None;
     }
 
-    let mut index : uint = 0;
+    let mut index : usize = 0;
 
     for c in s.chars() {
         if !c.is_whitespace() {
@@ -19,8 +19,8 @@ pub fn parse_whitespace(s : &str) -> Option<ParseResult> {
         index = index + 1;
     } 
 
-    let fragment = TomlFragment::Whitespace(s.slice(0, index));
-    let remainder = s.slice_from(index);
+    let fragment = TomlFragment::Whitespace(&s[0..index]);
+    let remainder = &s[..index];
 
     return Some(ParseResult { fragment: fragment, remainder: remainder });
 }

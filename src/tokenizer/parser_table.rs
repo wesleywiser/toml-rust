@@ -13,7 +13,7 @@ pub fn parse_table(s: &str) -> Option<ParseResult> {
     }
 
     let mut index = 0;
-    for c in s.slice_from(1).chars() {
+    for c in (&s[1..]).chars() {
         //'=', '#', '[', ']', and '.' aren't allowed in table names
         //don't check for '.' here because a higher level will be responsible
         //for dealing with nested table names
@@ -35,8 +35,8 @@ pub fn parse_table(s: &str) -> Option<ParseResult> {
         return None;
     } 
 
-    let fragment = Table(s.slice(1, index));
-    let remainder = s.slice_from(index + 1);
+    let fragment = Table(&s[1..index]);
+    let remainder = &s[index + 1..];
 
     Some(ParseResult { fragment: fragment, remainder: remainder })
 }
