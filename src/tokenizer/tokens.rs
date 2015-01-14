@@ -10,6 +10,9 @@ pub enum TomlFragment<'a> {
 
     //the tokenizer doesn't check if this will fit into an i64
     Integer(&'a str),
+
+    //may contain doted names (ex, "test.abc")
+    Table(&'a str),
 }
 
 #[derive(PartialEq, Show)]
