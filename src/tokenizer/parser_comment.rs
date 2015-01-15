@@ -11,7 +11,7 @@ pub fn parse_comment(s : &str) -> Option<ParseResult> {
 
     match s.lines().nth(0) {
         Some(comment) => {
-            let fragment = TomlFragment::Comment(&comment[..1]);
+            let fragment = TomlFragment::Comment(&comment[1..]);
             let remainder = &s[comment.len()..];
             
             Some(ParseResult { fragment: fragment, remainder: remainder })

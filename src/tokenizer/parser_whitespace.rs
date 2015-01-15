@@ -20,7 +20,7 @@ pub fn parse_whitespace(s : &str) -> Option<ParseResult> {
     } 
 
     let fragment = TomlFragment::Whitespace(&s[0..index]);
-    let remainder = &s[..index];
+    let remainder = &s[index..];
 
     return Some(ParseResult { fragment: fragment, remainder: remainder });
 }
