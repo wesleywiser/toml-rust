@@ -1,4 +1,5 @@
 use tokenizer::TomlFragment;
+use tokenizer::TomlFragment::*;
 use super::parser_whitespace::parse_whitespace;
 use super::parser_comment::parse_comment;
 use super::parser_boolean::parse_boolean;
@@ -61,22 +62,22 @@ fn tokenize_empty_str() {
 
 #[test]
 fn tokenize_whitespace() {
-    let tokens = vec![TomlFragment::Whitespace(" ")];
+    let tokens = vec![Whitespace(" ")];
     assert_eq!(Success(tokens), tokenize(" "));
 }
 
 #[test]
 fn tokenize_comment() {
-    let tokens = vec![TomlFragment::Comment("this is a comment")];
+    let tokens = vec![Comment("this is a comment")];
     assert_eq!(Success(tokens), tokenize("#this is a comment"));
 }
 
 #[test]
 fn tokenize_booleans() {
     let tokens = vec![
-        TomlFragment::Boolean("true"),
-        TomlFragment::Whitespace(" "),
-        TomlFragment::Boolean("false"),
+        Boolean("true"),
+        Whitespace(" "),
+        Boolean("false"),
     ];
     assert_eq!(Success(tokens), tokenize("true false"));
 }
@@ -84,8 +85,8 @@ fn tokenize_booleans() {
 #[test]
 fn tokenize_whitespace_comment() {
     let tokens = vec![
-        TomlFragment::Whitespace("    \t"),
-        TomlFragment::Comment("just some whitespace"),
+        Whitespace("    \t"),
+        Comment("just some whitespace"),
     ];
     assert_eq!(Success(tokens), tokenize("    \t#just some whitespace"));
 }
@@ -93,15 +94,15 @@ fn tokenize_whitespace_comment() {
 #[test]
 fn tokenize_positive_int_whitespace_negative_int() {
     let tokens = vec![
-        TomlFragment::Integer("123"),
-        TomlFragment::Whitespace(" "),
-        TomlFragment::Integer("-456"),
+        Integer("123"),
+        Whitespace(" "),
+        Integer("-456"),
     ];
     assert_eq!(Success(tokens), tokenize("123 -456"));
 }
 
 #[test]
 fn tokenize_table() {
-    let tokens = vec![TomlFragment::Table("table")];
+    let tokens = vec![Table("table")];
     assert_eq!(Success(tokens), tokenize("[table]"));
 }
