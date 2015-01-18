@@ -4,7 +4,6 @@ use super::parser_whitespace::parse_whitespace;
 use super::parser_comment::parse_comment;
 use super::parser_boolean::parse_boolean;
 use super::parser_integer::parse_integer;
-use super::parser_table::parse_table;
 use super::parser_array::{parse_bracket_open, parse_bracket_close, parse_comma};
 use self::TokenizeResult::{Success, Error};
 
@@ -36,11 +35,6 @@ pub fn tokenize(s : &str) -> TokenizeResult {
         }
 
         match parse_integer(rest) {
-            None => {},
-            Some(result) => { tokens.push(result.fragment); rest = result.remainder; continue; }
-        }
-
-        match parse_table(rest) {
             None => {},
             Some(result) => { tokens.push(result.fragment); rest = result.remainder; continue; }
         }
@@ -115,12 +109,6 @@ fn tokenize_positive_int_whitespace_negative_int() {
         Integer("-456"),
     ];
     assert_eq!(Success(tokens), tokenize("123 -456"));
-}
-
-#[test]
-fn tokenize_table() {
-    let tokens = vec![Table("table")];
-    assert_eq!(Success(tokens), tokenize("[table]"));
 }
 
 #[test]
