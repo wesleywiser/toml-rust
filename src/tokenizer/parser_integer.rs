@@ -21,8 +21,8 @@ pub fn parse_integer(s : &str) -> Option<ParseResult> {
             let fragment = Integer(&s[..index + end_index]);
             let remainder = &s[index + end_index..];
 
-            //if this didn't end the token, this token isn't an Integer
-            if !(remainder.is_empty() || remainder.char_at(0).is_whitespace()) {
+            //if the next char is a '.', then this isn't an Integer
+            if !remainder.is_empty() && remainder.char_at(0) == '.' {
                 return None;
             }
 
@@ -91,11 +91,6 @@ fn parse_integer_negative() {
 fn parse_integer_number_trailing_whitespace() {
     let expected = ParseResult { fragment: Integer("33"), remainder: " " };
     assert_eq!(Some(expected), parse_integer("33 "));
-}
-
-#[test]
-fn parse_integer_almost_an_int() {
-    assert_eq!(None, parse_integer("12345abc"));
 }
 
 #[test]
