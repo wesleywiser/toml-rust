@@ -13,6 +13,12 @@ pub enum TomlFragment<'a> {
 
     //may contain doted names (ex, "test.abc")
     Table(&'a str),
+
+    BracketOpen,
+
+    BracketClose,
+
+    Comma,
 }
 
 #[derive(PartialEq, Show)]

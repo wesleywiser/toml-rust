@@ -7,5 +7,6 @@ pub mod parser_comment;
 pub mod parser_boolean;
 pub mod parser_integer;
 pub mod parser_table;
+pub mod parser_array;
 pub mod tokenizer;
 

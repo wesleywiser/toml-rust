@@ -5,6 +5,7 @@ use super::parser_comment::parse_comment;
 use super::parser_boolean::parse_boolean;
 use super::parser_integer::parse_integer;
 use super::parser_table::parse_table;
+use super::parser_array::{parse_bracket_open, parse_bracket_close, parse_comma};
 use self::TokenizeResult::{Success, Error};
 
 #[derive(PartialEq, Show)]
@@ -40,6 +41,21 @@ pub fn tokenize(s : &str) -> TokenizeResult {
         }
 
         match parse_table(rest) {
+            None => {},
+            Some(result) => { tokens.push(result.fragment); rest = result.remainder; continue; }
+        }
+
+        match parse_bracket_open(rest) {
+            None => {},
+            Some(result) => { tokens.push(result.fragment); rest = result.remainder; continue; }
+        }
+
+        match parse_bracket_close(rest) {
+            None => {},
+            Some(result) => { tokens.push(result.fragment); rest = result.remainder; continue; }
+        }
+
+        match parse_comma(rest) {
             None => {},
             Some(result) => { tokens.push(result.fragment); rest = result.remainder; continue; }
         }
@@ -105,4 +121,18 @@ fn tokenize_positive_int_whitespace_negative_int() {
 fn tokenize_table() {
     let tokens = vec![Table("table")];
     assert_eq!(Success(tokens), tokenize("[table]"));
+}
+
+#[test]
+fn tokenize_array() {
+    let tokens = vec![
+        BracketOpen,
+        Integer("1"),
+        Comma,
+        Integer("2"),
+        Comma,
+        Integer("3"),
+        BracketClose,
+    ];
+    assert_eq!(Success(tokens), tokenize("[1,2,3]"));
 }
