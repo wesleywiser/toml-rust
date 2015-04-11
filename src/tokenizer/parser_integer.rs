@@ -6,14 +6,12 @@ pub fn parse_integer(s : &str) -> Option<ParseResult> {
         return None;
     }
 
-    let first_char = s.char_at(0);
-    if !(first_char == '+' || first_char == '-' || first_char.is_digit(10)) {
-        return None;
-    }
-
     let index : usize = 
-        if first_char == '+' || first_char == '-' { 1 }
-        else { 0 };
+        match s.chars().nth(0) {
+            Some('+') | Some('-') => 1,
+            Some(c) if c.is_digit(10) => 0,
+            _ => return None
+        };
 
     match get_end_of_number(&s[index..]) {
         None => None,
@@ -22,21 +20,16 @@ pub fn parse_integer(s : &str) -> Option<ParseResult> {
             let remainder = &s[index + end_index..];
 
             //if the next char is a '.', then this isn't an Integer
-            if !remainder.is_empty() && remainder.char_at(0) == '.' {
-                return None;
+            match remainder.chars().nth(0) {
+                Some('.') | None => None,
+                _ => Some(ParseResult { fragment: fragment, remainder: remainder })
             }
-
-            Some(ParseResult { fragment: fragment, remainder: remainder })
         }
     }
 }
 
 pub fn get_end_of_number(s : &str) -> Option<usize> {
     if s.is_empty() {
-        return None;
-    }
-
-    if !s.char_at(0).is_digit(10) {
         return None;
     }
 
@@ -50,7 +43,10 @@ pub fn get_end_of_number(s : &str) -> Option<usize> {
         index = index + 1;
     }
 
-    Some(index)
+    match index {
+        0 => None,
+        n => Some(n)
+    }
 }
 
 #[test]

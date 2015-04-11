@@ -15,9 +15,11 @@ pub fn parse_boolean(s : &str) -> Option<ParseResult> {
             return None;
         };
         
-    if remainder.is_empty() || remainder.char_at(0).is_whitespace() {
-        Some(ParseResult { fragment: Boolean(fragment), remainder: remainder })
-    } else { None }
+    match remainder.chars().nth(0) {
+        Some(c) if c.is_whitespace() => 
+            Some(ParseResult { fragment: Boolean(fragment), remainder: remainder }),
+        _ => None
+    }
 }
 
 #[test]

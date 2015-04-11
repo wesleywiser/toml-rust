@@ -1,6 +1,6 @@
 use tokenizer::TomlFragment;
 
-#[derive(PartialEq, Show)]
+#[derive(PartialEq, Debug)]
 pub enum AstFragment {
     Boolean(bool),
 }
@@ -13,7 +13,7 @@ pub fn parse_fragment(tokens: Vec<TomlFragment>) -> Result<Vec<AstFragment>, &st
             match token {
                 &TomlFragment::Boolean("true") => AstFragment::Boolean(true),
                 &TomlFragment::Boolean("false") => AstFragment::Boolean(false),
-                _ => return Err("not implemented".as_slice()),
+                _ => return Err("not implemented"),
             });
     }
 

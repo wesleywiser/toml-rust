@@ -1,5 +1,5 @@
 use tokenizer::TomlFragment;
-use tokenizer::TomlFragment::*;
+//use tokenizer::TomlFragment::*;
 use super::parser_whitespace::parse_whitespace;
 use super::parser_comment::parse_comment;
 use super::parser_boolean::parse_boolean;
@@ -7,7 +7,7 @@ use super::parser_integer::parse_integer;
 use super::parser_array::{parse_bracket_open, parse_bracket_close, parse_comma};
 use self::TokenizeResult::{Success, Error};
 
-#[derive(PartialEq, Show)]
+#[derive(PartialEq, Debug)]
 pub enum TokenizeResult<'a> {
     Success(Vec<TomlFragment<'a>>),
     Error(&'a str),

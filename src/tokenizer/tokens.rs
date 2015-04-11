@@ -1,5 +1,5 @@
 
-#[derive(PartialEq, Show)]
+#[derive(PartialEq, Debug)]
 pub enum TomlFragment<'a> {
     Whitespace(&'a str),
     
@@ -21,7 +21,7 @@ pub enum TomlFragment<'a> {
     Comma,
 }
 
-#[derive(PartialEq, Show)]
+#[derive(PartialEq, Debug)]
 pub struct ParseResult<'a> {
     pub fragment : TomlFragment<'a>,
     pub remainder : &'a str,

@@ -5,10 +5,6 @@ pub fn parse_whitespace(s : &str) -> Option<ParseResult> {
         return None;
     }
 
-    if !s.char_at(0).is_whitespace() {
-        return None;
-    }
-
     let mut index : usize = 0;
 
     for c in s.chars() {
@@ -19,10 +15,15 @@ pub fn parse_whitespace(s : &str) -> Option<ParseResult> {
         index = index + 1;
     } 
 
-    let fragment = TomlFragment::Whitespace(&s[0..index]);
-    let remainder = &s[index..];
+    match index {
+        0 => None,
+        _ => {
+            let fragment = TomlFragment::Whitespace(&s[0..index]);
+            let remainder = &s[index..];
 
-    return Some(ParseResult { fragment: fragment, remainder: remainder });
+            Some(ParseResult { fragment: fragment, remainder: remainder })
+        }
+    }
 }
 
 #[test]

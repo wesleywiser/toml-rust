@@ -15,11 +15,7 @@ pub fn parse_comma(s: &str) -> Option<ParseResult> {
 }
 
 fn parse_single_char<'a>(c : char, fragment: TomlFragment<'a>, s: &'a str) -> Option<ParseResult<'a>> {
-    if s.is_empty() {
-        return None;
-    }
-
-    if s.char_at(0) != c {
+    if s.chars().nth(0) != Some(c) {
         return None;
     }
 
