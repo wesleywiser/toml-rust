@@ -1,7 +1,7 @@
 use tokenizer::{ParseResult};
 use tokenizer::TomlFragment::Boolean;
 
-pub fn parse_boolean(s : &str) -> Option<ParseResult> {
+pub fn tokenize_boolean(s : &str) -> Option<ParseResult> {
     if s.is_empty() {
         return None;
     }
@@ -25,41 +25,41 @@ pub fn parse_boolean(s : &str) -> Option<ParseResult> {
 }
 
 #[test]
-fn parse_boolean_empty_str() {
-    assert_eq!(None, parse_boolean(""));
+fn tokenize_boolean_empty_str() {
+    assert_eq!(None, tokenize_boolean(""));
 }
 
 #[test]
-fn parse_boolean_not_a_boolean() {
-    assert_eq!(None, parse_boolean("awf1123"));
+fn tokenize_boolean_not_a_boolean() {
+    assert_eq!(None, tokenize_boolean("awf1123"));
 }
 
 #[test]
-fn parse_boolean_almost_true() {
-    assert_eq!(None, parse_boolean("true_but_not_quite"));
+fn tokenize_boolean_almost_true() {
+    assert_eq!(None, tokenize_boolean("true_but_not_quite"));
 }
 
 #[test]
-fn parse_boolean_almost_false() {
-    assert_eq!(None, parse_boolean("false_but_not_quite"));
+fn tokenize_boolean_almost_false() {
+    assert_eq!(None, tokenize_boolean("false_but_not_quite"));
 }
 
 #[test]
-fn parse_boolean_true() {
-    assert_eq!(Some(ParseResult { fragment: Boolean("true"), remainder: "" }), parse_boolean("true"));
+fn tokenize_boolean_true() {
+    assert_eq!(Some(ParseResult { fragment: Boolean("true"), remainder: "" }), tokenize_boolean("true"));
 }
 
 #[test]
-fn parse_boolean_false() {
-    assert_eq!(Some(ParseResult { fragment: Boolean("false"), remainder: "" }), parse_boolean("false"));
+fn tokenize_boolean_false() {
+    assert_eq!(Some(ParseResult { fragment: Boolean("false"), remainder: "" }), tokenize_boolean("false"));
 }
 
 #[test]
-fn parse_boolean_true_newline() {
-    assert_eq!(Some(ParseResult { fragment: Boolean("true"), remainder: "\n" }), parse_boolean("true\n"));
+fn tokenize_boolean_true_newline() {
+    assert_eq!(Some(ParseResult { fragment: Boolean("true"), remainder: "\n" }), tokenize_boolean("true\n"));
 }
 
 #[test]
-fn parse_boolean_false_newline() {
-    assert_eq!(Some(ParseResult { fragment: Boolean("false"), remainder: "\n" }), parse_boolean("false\n"));
+fn tokenize_boolean_false_newline() {
+    assert_eq!(Some(ParseResult { fragment: Boolean("false"), remainder: "\n" }), tokenize_boolean("false\n"));
 }

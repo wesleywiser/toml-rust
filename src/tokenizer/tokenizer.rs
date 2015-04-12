@@ -1,7 +1,7 @@
 use tokenizer::TomlFragment;
 use super::tokenizer_whitespace::parse_whitespace;
 use super::tokenizer_comment::parse_comment;
-use super::tokenizer_boolean::parse_boolean;
+use super::tokenizer_boolean::tokenize_boolean;
 use super::tokenizer_integer::parse_integer;
 use super::tokenizer_array::{tokenize_bracket_open, tokenize_bracket_close, tokenize_comma};
 use self::TokenizeResult::{Success, Error};
@@ -28,7 +28,7 @@ pub fn tokenize(s : &str) -> TokenizeResult {
             Some(result) => { tokens.push(result.fragment); rest = result.remainder; continue; }
         } 
 
-        match parse_boolean(rest) {
+        match tokenize_boolean(rest) {
             None => {},
             Some(result) => { tokens.push(result.fragment); rest = result.remainder; continue; }
         }
