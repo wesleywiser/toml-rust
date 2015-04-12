@@ -1,6 +1,6 @@
 use tokenizer::{ParseResult, TomlFragment};
 
-pub fn parse_whitespace(s : &str) -> Option<ParseResult> {
+pub fn tokenize_whitespace(s : &str) -> Option<ParseResult> {
     if s.is_empty() {
         return None;
     }
@@ -27,52 +27,52 @@ pub fn parse_whitespace(s : &str) -> Option<ParseResult> {
 }
 
 #[test]
-fn parse_whitespace_empty_string() {
-    assert_eq!(None, parse_whitespace(""));
+fn tokenize_whitespace_empty_string() {
+    assert_eq!(None, tokenize_whitespace(""));
 }
 
 #[test]
-fn parse_whitespace_no_whitespace_str() {
-    assert_eq!(None, parse_whitespace("abc"));
+fn tokenize_whitespace_no_whitespace_str() {
+    assert_eq!(None, tokenize_whitespace("abc"));
 }
 
 #[test]
-fn parse_whitespace_one_space() {
+fn tokenize_whitespace_one_space() {
     let fragment = TomlFragment::Whitespace(" ");
     let remainder = "";
 
-    assert_eq!(Some(ParseResult { fragment: fragment, remainder: remainder }), parse_whitespace(" "));
+    assert_eq!(Some(ParseResult { fragment: fragment, remainder: remainder }), tokenize_whitespace(" "));
 }
 
 #[test]
-fn parse_whitespace_two_spaces() {
+fn tokenize_whitespace_two_spaces() {
     let fragment = TomlFragment::Whitespace("  ");
     let remainder = "";
 
-    assert_eq!(Some(ParseResult { fragment: fragment, remainder: remainder }), parse_whitespace("  "));
+    assert_eq!(Some(ParseResult { fragment: fragment, remainder: remainder }), tokenize_whitespace("  "));
 }
 
 #[test]
-fn parse_whitespace_one_space_one_letter() {
+fn tokenize_whitespace_one_space_one_letter() {
     let fragment = TomlFragment::Whitespace(" ");
     let remainder = "w";
 
-    assert_eq!(Some(ParseResult { fragment: fragment, remainder: remainder }), parse_whitespace(" w"));
+    assert_eq!(Some(ParseResult { fragment: fragment, remainder: remainder }), tokenize_whitespace(" w"));
 }
 
 #[test]
-fn parse_whitespace_unix_newline() {
+fn tokenize_whitespace_unix_newline() {
     let fragment = TomlFragment::Whitespace("\n");
     let remainder = "";
 
-    assert_eq!(Some(ParseResult { fragment: fragment, remainder: remainder }), parse_whitespace("\n"));
+    assert_eq!(Some(ParseResult { fragment: fragment, remainder: remainder }), tokenize_whitespace("\n"));
 }
 
 #[test]
-fn parse_whitespace_windows_newline() {
+fn tokenize_whitespace_windows_newline() {
     let fragment = TomlFragment::Whitespace("\r\n");
     let remainder = "";
 
-    assert_eq!(Some(ParseResult { fragment: fragment, remainder: remainder }), parse_whitespace("\r\n"));
+    assert_eq!(Some(ParseResult { fragment: fragment, remainder: remainder }), tokenize_whitespace("\r\n"));
 } 
 

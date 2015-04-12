@@ -1,5 +1,5 @@
 use tokenizer::TomlFragment;
-use super::tokenizer_whitespace::parse_whitespace;
+use super::tokenizer_whitespace::tokenize_whitespace;
 use super::tokenizer_comment::tokenize_comment;
 use super::tokenizer_boolean::tokenize_boolean;
 use super::tokenizer_integer::tokenize_integer;
@@ -18,7 +18,7 @@ pub fn tokenize(s : &str) -> TokenizeResult {
     let mut rest = s;
 
     while !rest.is_empty() {
-        match parse_whitespace(rest) {
+        match tokenize_whitespace(rest) {
             None => {},
             Some(result) => { tokens.push(result.fragment); rest = result.remainder; continue; }
         }
