@@ -1,5 +1,5 @@
 use tokenizer::TomlFragment;
-use super::parser_whitespace::parse_whitespace;
+use super::tokenizer_whitespace::parse_whitespace;
 use super::tokenizer_comment::parse_comment;
 use super::tokenizer_boolean::parse_boolean;
 use super::tokenizer_integer::parse_integer;
