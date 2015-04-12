@@ -3,7 +3,7 @@ use super::parser_whitespace::parse_whitespace;
 use super::parser_comment::parse_comment;
 use super::parser_boolean::parse_boolean;
 use super::parser_integer::parse_integer;
-use super::parser_array::{parse_bracket_open, parse_bracket_close, parse_comma};
+use super::tokenizer_array::{parse_bracket_open, parse_bracket_close, parse_comma};
 use self::TokenizeResult::{Success, Error};
 
 #[derive(PartialEq, Debug)]
