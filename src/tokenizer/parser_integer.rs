@@ -2,10 +2,6 @@ use tokenizer::{ParseResult};
 use tokenizer::TomlFragment::Integer;
 
 pub fn parse_integer(s : &str) -> Option<ParseResult> {
-    if s.is_empty() {
-        return None;
-    }
-
     let index : usize = 
         match s.chars().nth(0) {
             Some('+') | Some('-') => 1,
@@ -21,7 +17,7 @@ pub fn parse_integer(s : &str) -> Option<ParseResult> {
 
             //if the next char is a '.', then this isn't an Integer
             match remainder.chars().nth(0) {
-                Some('.') | None => None,
+                Some('.') => None,
                 _ => Some(ParseResult { fragment: fragment, remainder: remainder })
             }
         }

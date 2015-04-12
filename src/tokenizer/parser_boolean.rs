@@ -18,6 +18,8 @@ pub fn parse_boolean(s : &str) -> Option<ParseResult> {
     match remainder.chars().nth(0) {
         Some(c) if c.is_whitespace() => 
             Some(ParseResult { fragment: Boolean(fragment), remainder: remainder }),
+        None => 
+            Some(ParseResult { fragment: Boolean(fragment), remainder: remainder }),
         _ => None
     }
 }
