@@ -1,7 +1,7 @@
 use tokenizer::{ParseResult};
 use tokenizer::TomlFragment::Integer;
 
-pub fn parse_integer(s : &str) -> Option<ParseResult> {
+pub fn tokenize_integer(s : &str) -> Option<ParseResult> {
     let index : usize = 
         match s.chars().nth(0) {
             Some('+') | Some('-') => 1,
@@ -46,48 +46,48 @@ pub fn get_end_of_number(s : &str) -> Option<usize> {
 }
 
 #[test]
-fn parse_integer_empty_str() {
-    assert_eq!(None, parse_integer(""));
+fn tokenize_integer_empty_str() {
+    assert_eq!(None, tokenize_integer(""));
 }
 
 #[test]
-fn parse_integer_text() {
-    assert_eq!(None, parse_integer("gw"));
+fn tokenize_integer_text() {
+    assert_eq!(None, tokenize_integer("gw"));
 }
 
 #[test]
-fn parse_integer_one_digit() {
+fn tokenize_integer_one_digit() {
     let expected = ParseResult { fragment: Integer("9"), remainder: "" };
-    assert_eq!(Some(expected), parse_integer("9"));
+    assert_eq!(Some(expected), tokenize_integer("9"));
 }
 
 #[test]
-fn parse_integer_two_digits() {
+fn tokenize_integer_two_digits() {
     let expected = ParseResult { fragment: Integer("55"), remainder: "" };
-    assert_eq!(Some(expected), parse_integer("55"));
+    assert_eq!(Some(expected), tokenize_integer("55"));
 }
 
 #[test]
-fn parse_integer_positive() {
+fn tokenize_integer_positive() {
     let expected = ParseResult { fragment: Integer("+123"), remainder: "" };
-    assert_eq!(Some(expected), parse_integer("+123"));
+    assert_eq!(Some(expected), tokenize_integer("+123"));
 }
 
 #[test]
-fn parse_integer_negative() {
+fn tokenize_integer_negative() {
     let expected = ParseResult { fragment: Integer("-987"), remainder: "" };
-    assert_eq!(Some(expected), parse_integer("-987"));
+    assert_eq!(Some(expected), tokenize_integer("-987"));
 }
 
 #[test]
-fn parse_integer_number_trailing_whitespace() {
+fn tokenize_integer_number_trailing_whitespace() {
     let expected = ParseResult { fragment: Integer("33"), remainder: " " };
-    assert_eq!(Some(expected), parse_integer("33 "));
+    assert_eq!(Some(expected), tokenize_integer("33 "));
 }
 
 #[test]
-fn parse_integer_decimal() {
-    assert_eq!(None, parse_integer("123.456"));
+fn tokenize_integer_decimal() {
+    assert_eq!(None, tokenize_integer("123.456"));
 }
 
 #[test]
