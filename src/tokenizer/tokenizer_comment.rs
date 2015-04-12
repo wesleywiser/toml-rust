@@ -1,6 +1,6 @@
 use tokenizer::{ParseResult, TomlFragment};
 
-pub fn parse_comment(s : &str) -> Option<ParseResult> {
+pub fn tokenize_comment(s : &str) -> Option<ParseResult> {
     if s.is_empty() {
         return None;
     }
@@ -17,52 +17,52 @@ pub fn parse_comment(s : &str) -> Option<ParseResult> {
 }
 
 #[test]
-fn parse_comment_empty_str() {
-    assert_eq!(None, parse_comment(""));
+fn tokenize_comment_empty_str() {
+    assert_eq!(None, tokenize_comment(""));
 }
 
 #[test]
-fn parse_comment_non_comment_str() {
-    assert_eq!(None, parse_comment("test"));
+fn tokenize_comment_non_comment_str() {
+    assert_eq!(None, tokenize_comment("test"));
 }
 
 #[test]
-fn parse_comment_only_comment_char() {
+fn tokenize_comment_only_comment_char() {
     let fragment = TomlFragment::Comment("");
     let remainder = "";
 
-    assert_eq!(Some(ParseResult { fragment: fragment, remainder: remainder }), parse_comment("#"));
+    assert_eq!(Some(ParseResult { fragment: fragment, remainder: remainder }), tokenize_comment("#"));
 }
 
 #[test]
-fn parse_comment_unix_newline() {
+fn tokenize_comment_unix_newline() {
     let fragment = TomlFragment::Comment("");
     let remainder = "\n";
 
-    assert_eq!(Some(ParseResult { fragment: fragment, remainder: remainder }), parse_comment("#\n"));
+    assert_eq!(Some(ParseResult { fragment: fragment, remainder: remainder }), tokenize_comment("#\n"));
 }
 
 #[test]
-fn parse_comment_windows_newline() {
+fn tokenize_comment_windows_newline() {
     let fragment = TomlFragment::Comment("\r");
     let remainder = "\n";
 
-    assert_eq!(Some(ParseResult { fragment: fragment, remainder: remainder }), parse_comment("#\r\n"));
+    assert_eq!(Some(ParseResult { fragment: fragment, remainder: remainder }), tokenize_comment("#\r\n"));
 }
 
 #[test]
-fn parse_comment_text() {
+fn tokenize_comment_text() {
     let fragment = TomlFragment::Comment("some comment");
     let remainder= "";
     
-    assert_eq!(Some(ParseResult { fragment: fragment, remainder: remainder }), parse_comment("#some comment"));
+    assert_eq!(Some(ParseResult { fragment: fragment, remainder: remainder }), tokenize_comment("#some comment"));
 }
 
 #[test]
-fn parse_comment_content_after() {
+fn tokenize_comment_content_after() {
     let fragment = TomlFragment::Comment("test 123! :)");
     let remainder = "\ncontent";
 
-    assert_eq!(Some(ParseResult { fragment: fragment, remainder: remainder }), parse_comment("#test 123! :)\ncontent"));
+    assert_eq!(Some(ParseResult { fragment: fragment, remainder: remainder }), tokenize_comment("#test 123! :)\ncontent"));
 }
 
