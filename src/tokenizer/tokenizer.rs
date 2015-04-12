@@ -2,7 +2,7 @@ use tokenizer::TomlFragment;
 use super::parser_whitespace::parse_whitespace;
 use super::tokenizer_comment::parse_comment;
 use super::tokenizer_boolean::parse_boolean;
-use super::parser_integer::parse_integer;
+use super::tokenizer_integer::parse_integer;
 use super::tokenizer_array::{parse_bracket_open, parse_bracket_close, parse_comma};
 use self::TokenizeResult::{Success, Error};
 
