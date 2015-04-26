@@ -1,3 +1,3 @@
-pub use self::ast::fragments::{AstFragment, parse_fragment};
+pub use self::ast::fragments::{AstFragment};
 
 pub mod ast;

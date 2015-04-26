@@ -15,22 +15,6 @@ pub struct ParseResult<'a> {
     pub parse_result : Vec<AstFragment<'a>>,
 }
 
-pub fn parse_fragment(tokens: Vec<TomlFragment>) -> Result<Vec<AstFragment>, &str> {
-    let mut fragments = Vec::with_capacity(tokens.len() / 2);
-
-    for token in tokens.iter() {
-        fragments.push(
-            match token {
-                &TomlFragment::Boolean("true") => AstFragment::Boolean(true),
-                &TomlFragment::Boolean("false") => AstFragment::Boolean(false),
-                &TomlFragment::Whitespace(s) => AstFragment::Whitespace(s),
-                _ => return Err("not implemented"),
-            });
-    }
-
-    Ok(fragments)
-}
-
 pub fn parse_token<'a>(tokens: &'a[TomlFragment]) -> Result<ParseResult<'a>, &'a str> {
     let token = &tokens[0];
 
@@ -94,23 +78,41 @@ mod test {
 
     #[test]
     fn parse_fragment_whitespace() {
-        let expected = Ok(vec![AstFragment::Whitespace("   ")]);
         let input = vec![TomlFragment::Whitespace("   ")];
-        assert_eq!(expected, parse_fragment(input));
+        let expected = 
+            Ok(
+                ParseResult {
+                    number_of_consumed_tokens: 1,
+                    parse_result: vec![AstFragment::Whitespace("   ")]
+                });
+
+        assert_eq!(expected, parse_token(&input));
     }
 
     #[test]
     fn parse_fragment_boolean_true() {
-        let expected = Ok(vec![AstFragment::Boolean(true)]);
         let input = vec![TomlFragment::Boolean("true")];
-        assert_eq!(expected, parse_fragment(input));
+        let expected = 
+            Ok(
+                ParseResult {
+                    number_of_consumed_tokens: 1,
+                    parse_result: vec![AstFragment::Boolean(true)]
+                });
+
+        assert_eq!(expected, parse_token(&input));
     }
     
     #[test]
     fn parse_fragment_boolean_false() {
-        let expected = Ok(vec![AstFragment::Boolean(false)]);
         let input = vec![TomlFragment::Boolean("false")];
-        assert_eq!(expected, parse_fragment(input));
+        let expected = 
+            Ok(
+                ParseResult {
+                    number_of_consumed_tokens: 1,
+                    parse_result: vec![AstFragment::Boolean(false)]
+                });
+
+        assert_eq!(expected, parse_token(&input));
     }
 
     #[test]

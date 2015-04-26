@@ -1,3 +1,3 @@
-pub use self::fragments::{AstFragment, parse_fragment};
+pub use self::fragments::{AstFragment};
 
 pub mod fragments;
