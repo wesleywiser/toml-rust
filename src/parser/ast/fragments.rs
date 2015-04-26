@@ -6,6 +6,7 @@ pub enum AstFragment<'a> {
     Whitespace(&'a str),
     Array(Vec<AstFragment<'a>>),
     Comma,
+    Integer(i64, &'a str),
 }
 
 #[derive(PartialEq, Debug)]
@@ -25,6 +26,7 @@ pub fn parse_token<'a>(tokens: &'a[TomlFragment]) -> Result<ParseResult<'a>, &'a
             &TomlFragment::Whitespace(s) => AstFragment::Whitespace(s),
             &TomlFragment::Comma => AstFragment::Comma,
             &TomlFragment::BracketOpen => return parse_array(tokens),
+            &TomlFragment::Integer(s) => AstFragment::Integer(s.parse::<i64>().ok().unwrap(), s),
             _ => return Err("not implemented"),
         };
 
@@ -110,6 +112,58 @@ mod test {
                 ParseResult {
                     number_of_consumed_tokens: 1,
                     parse_result: vec![AstFragment::Boolean(false)]
+                });
+
+        assert_eq!(expected, parse_token(&input));
+    }
+    
+    #[test]
+    fn parse_fragment_integer_0() {
+        let input = vec![TomlFragment::Integer("0")];
+        let expected = 
+            Ok(
+                ParseResult {
+                    number_of_consumed_tokens: 1,
+                    parse_result: vec![AstFragment::Integer(0, "0")]
+                });
+
+        assert_eq!(expected, parse_token(&input));
+    }
+    
+    #[test]
+    fn parse_fragment_integer_1() {
+        let input = vec![TomlFragment::Integer("1")];
+        let expected = 
+            Ok(
+                ParseResult {
+                    number_of_consumed_tokens: 1,
+                    parse_result: vec![AstFragment::Integer(1, "1")]
+                });
+
+        assert_eq!(expected, parse_token(&input));
+    }
+    
+    #[test]
+    fn parse_fragment_integer_min() {
+        let input = vec![TomlFragment::Integer("-9223372036854775808")];
+        let expected = 
+            Ok(
+                ParseResult {
+                    number_of_consumed_tokens: 1,
+                    parse_result: vec![AstFragment::Integer(-9223372036854775808, "-9223372036854775808")]
+                });
+
+        assert_eq!(expected, parse_token(&input));
+    }
+    
+    #[test]
+    fn parse_fragment_integer_max() {
+        let input = vec![TomlFragment::Integer("9223372036854775807")];
+        let expected = 
+            Ok(
+                ParseResult {
+                    number_of_consumed_tokens: 1,
+                    parse_result: vec![AstFragment::Integer(9223372036854775807, "9223372036854775807")]
                 });
 
         assert_eq!(expected, parse_token(&input));
